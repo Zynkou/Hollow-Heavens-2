@@ -5,3 +5,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Zynkou/Hollow-Heavens
 
 Nightify;
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Zynkou/Hollow-Heavens-2/main/Nightify.lua"))()
+
+Other;
+
+Admin Names JSON table: https://github.com/Zynkou/Hollow-Heavens-2/blob/main/AdminNames.json
