@@ -1,0 +1,7 @@
+This was made just so people don't linkvertise and do other weird stuff with the script. :)
+
+Inversity;
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Zynkou/Hollow-Heavens-2/main/Inversity.lua"))()
+
+Nightify;
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Zynkou/Hollow-Heavens-2/main/Nightify.lua"))()
