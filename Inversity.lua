@@ -618,7 +618,7 @@ function ESP()
 
 				end
 				print(x.Parent)
-				local torso = x.Parent:WaitForChild("Torso")
+--[[				local torso = x.Parent:WaitForChild("Torso")
 				local ll = x.Parent:WaitForChild("Left Leg")
 				local la = x.Parent:WaitForChild("Left Arm")
 				local ra = x.Parent:WaitForChild("Right Arm")
@@ -665,8 +665,16 @@ function ESP()
 				newlimblight1.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 				newlimblight2.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 				newlimblight3.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-				newlimblight4.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				newlimblight4.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop ]]
 				print("ESP'd")
+				local char = x.Parent
+				local newcharlight = Instance.new("Highlight", char)
+				newcharlight.Adornee = newcharlight.Parent
+				newcharlight.FillTransparency = 0.5
+				newcharlight.FillColor = Color3.fromRGB(154, 0, 2)
+				newcharlight.OutlineTransparency = 1
+				newcharlight.Name = "esplight"
+				print("workspace safe")
 			end
 		end
 		task.wait(1)
@@ -963,7 +971,7 @@ while true do
 					newlimblight3.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 					newlimblight4.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 				--]]	
-					print("ESP'd")
+				--[[	print("ESP'd")
 					local char = x.Parent
 					local newcharlight = Instance.new("Highlight", char)
 					newcharlight.Adornee = newcharlight.Parent
@@ -971,6 +979,7 @@ while true do
 					newcharlight.FillColor = Color3.fromRGB(154, 0, 2)
 					newcharlight.OutlineTransparency = 1
 					print("workspace safe")
+					--]]
 				end
 			end
 		end
