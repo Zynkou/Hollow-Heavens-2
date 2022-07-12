@@ -4,6 +4,7 @@
 local loading = false
 local zbypass = false
 local esp = false
+local infammo = false
 local flstagemode = 0
 local UserInputService = game:GetService("UserInputService")
 local bannedusers = {}
@@ -68,6 +69,7 @@ local UICorner_22 = Instance.new("UICorner")
 InversityUI.Name = "InversityUI"
 InversityUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 InversityUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+InversityUI.ResetOnSpawn = false
 
 Mainframe.Name = "Mainframe"
 Mainframe.Parent = InversityUI
@@ -542,16 +544,8 @@ end
 
 function InfAmmo()
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
-	local char = game.Players.LocalPlayer.Character
-	for i,x in pairs(char:GetDescendants()) do
-		if x.Name == "1" and x:IsA("ModuleScript") then
-			local _settings = require(x)
-			_settings.AmmoPerMag = math.huge
-			_settings.LimitedAmmoEnabled = false
-			x.Parent.Parent.ValueFolder["1"].Mag.Value = math.huge
-			x.Parent.Parent.ValueFolder["1"].Ammo.Value = math.huge
-		end
-	end
+	infammo = true
+	print("InfAmmo: On")
 end
 
 function ToggleUI()
@@ -579,10 +573,10 @@ function XRay()
 			end
 		end
 	end
-	
+
 	for i,x in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
 		if x:IsA("Part") or x:IsA("WedgePart") or x:IsA("CornerWedgePart") or x:IsA("TrussPart") or x:IsA("TriangleMeshPart") or x:IsA("MeshPart") then
-				x.LocalTransparencyModifier = 0
+			x.LocalTransparencyModifier = 0
 		end
 	end
 end
@@ -612,8 +606,71 @@ end
 
 function ESP()
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
-	if true then warn("This function is still IN-DEV.") return end
-	esp = true
+	--if true then warn("This function is still IN-DEV.") return end
+	--esp = true
+	while true do
+		for i,x in pairs(game.Workspace:GetDescendants()) do
+			if x:IsA("Part") or x:IsA("TriangleMeshPart") or x:IsA("MeshPart") and x.Name == "Head" and x.Parent == "Drooling Zombie" then
+				--if x.Parent:FindFirstChildOfClass("Humanoid") == nil or x:FindFirstChild("Highlight") == nil or x:IsA("Workspace") then warn("ESP Function - Something is wrong, they may have patched it or something randomly went wrong. Try again later.") end -- or x:FindFirstChild("Highlight") ~= nil
+				local head = x
+				if head == game.Workspace then
+				else
+
+				end
+				print(x.Parent)
+				local torso = x.Parent:WaitForChild("Torso")
+				local ll = x.Parent:WaitForChild("Left Leg")
+				local la = x.Parent:WaitForChild("Left Arm")
+				local ra = x.Parent:WaitForChild("Right Arm")
+				local rl = x.Parent:WaitForChild("Right Leg")
+				local humanoid = x.Parent:FindFirstChildOfClass("Humanoid")
+				local newtorsolight = Instance.new("Highlight", torso)
+				local newheadlight = Instance.new("Highlight", head)
+				local newlimblight1 = Instance.new("Highlight", la)
+				local newlimblight2 = Instance.new("Highlight", ra)
+				local newlimblight3 = Instance.new("Highlight",rl)
+				local newlimblight4 = Instance.new("Highlight", ll)
+				newtorsolight.Adornee = newtorsolight.Parent
+				newtorsolight.FillTransparency = 0.5
+				newtorsolight.FillColor = Color3.fromRGB(255, 255, 10)
+				newtorsolight.OutlineTransparency = 1
+
+				newheadlight.Adornee = newheadlight.Parent
+				newheadlight.FillTransparency = 0.5
+				newheadlight.FillColor = Color3.fromRGB(147, 0, 7)
+				newheadlight.OutlineTransparency = 1
+
+				newlimblight1.Adornee = newlimblight1.Parent
+				newlimblight1.FillTransparency = 0.5
+				newlimblight1.FillColor = Color3.fromRGB(58, 183, 3)
+				newlimblight1.OutlineTransparency = 1
+
+				newlimblight2.Adornee = newlimblight2.Parent
+				newlimblight2.FillTransparency = 0.5
+				newlimblight2.FillColor = Color3.fromRGB(58, 183, 3)
+				newlimblight2.OutlineTransparency = 1
+
+				newlimblight3.Adornee = newlimblight3.Parent
+				newlimblight3.FillTransparency = 0.5
+				newlimblight3.FillColor = Color3.fromRGB(58, 183, 3)
+				newlimblight3.OutlineTransparency = 1
+
+				newlimblight4.Adornee = newlimblight4.Parent
+				newlimblight4.FillTransparency = 0.5
+				newlimblight4.FillColor = Color3.fromRGB(58, 183, 3)
+				newlimblight4.OutlineTransparency = 1
+
+				newtorsolight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				newheadlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				newlimblight1.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				newlimblight2.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				newlimblight3.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				newlimblight4.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				print("ESP'd")
+			end
+		end
+		task.wait(1)
+	end
 	print("ESP: On")
 end
 
@@ -622,7 +679,7 @@ function HardFlashlight()
 	local flbasevalue1 = 5
 	local flbasevalue2 = 10
 	local flbasevalue3 = 40
-	
+
 	if flstagemode == 0 then
 		for i,x in pairs(game.Workspace:GetDescendants()) do
 			if x:IsA("SpotLight") and x.Name == "flashLight" then
@@ -635,7 +692,7 @@ function HardFlashlight()
 		WE.Text = "Hard Flashlight (Z) (MODE: 1)"
 		return
 	end
-	
+
 	if flstagemode == 1 then
 		for i,x in pairs(game.Workspace:GetDescendants()) do
 			if x:IsA("SpotLight") and x.Name == "flashLight" then
@@ -648,7 +705,7 @@ function HardFlashlight()
 		WE.Text = "Hard Flashlight (Z) (MODE: 2)"
 		return
 	end
-	
+
 	if flstagemode == 2 then
 		for i,x in pairs(game.Workspace:GetDescendants()) do
 			if x:IsA("SpotLight") and x.Name == "flashLight" then
@@ -661,7 +718,7 @@ function HardFlashlight()
 		WE.Text = "Hard Flashlight (Z) (MODE: 3)"
 		return
 	end
-	
+
 	if flstagemode == 3 then
 		for i,x in pairs(game.Workspace:GetDescendants()) do
 			if x:IsA("SpotLight") and x.Name == "flashLight" then
@@ -674,7 +731,7 @@ function HardFlashlight()
 		WE.Text = "Hard Flashlight (Z)"
 		return
 	end
-	
+
 end
 
 UserInputService.InputBegan:Connect(function(key, chatting)
@@ -813,14 +870,50 @@ game.Players.LocalPlayer.Character.Humanoid.HealthChanged:Connect(function()
 	game.Players.LocalPlayer:FindFirstChildOfClass("Humanoid").Jump = true
 end)
 
-pcall(function()
-	while true do
-		if esp then
-			for i,x in pairs(game.Workspace:GetDescendants()) do
-				if x:IsA("Part") or x:IsA("TriangleMeshPart") or x:IsA("MeshPart") and x.Name == "Head" and x.Parent == "Drooling Zombie" then
-					--if x.Parent:FindFirstChildOfClass("Humanoid") == nil or x:FindFirstChild("Highlight") == nil or x:IsA("Workspace") then warn("ESP Function - Something is wrong, they may have patched it or something randomly went wrong. Try again later.") end -- or x:FindFirstChild("Highlight") ~= nil
-					local head = x
-					print(x.Parent)
+while true do
+	if infammo then
+		local plr = game.Players.LocalPlayer
+		local char = game.Players.LocalPlayer.Character
+		for i,x in pairs(char:GetDescendants()) do
+			if x.Name == "1" and x:IsA("ModuleScript") then
+				local _settings = require(x)
+				x.Parent.Parent.ValueFolder["1"].Mag.Value = _settings.AmmoPerMag
+				x.Parent.Parent.GunServer.ChangeMagAndAmmo:FireServer(1, _settings.AmmoPerMag, _settings.MaxAmmo, 0)
+				x.Parent.Parent.GunServer.ChangeMagAndAmmo:FireClient(plr, 1, _settings.AmmoPerMag, _settings.MaxAmmo, 0)
+				game.ReplicatedStorage.Remotes.PlayAudio:FireServer({
+					Pitch = 1;
+					MaxDistance = 0;
+					Silenced = false;
+					EmitterSize = 0;
+					SoundId = "";
+					Echo = true;
+					Origin = x.Parent.Parent.Handle.GunMuzzlePoint1;
+					Volume = 0
+				},
+				{
+					Enabled = true;
+					EmitterSize = 0;
+					CurrentAmmo = _settings.AmmoPerMag;
+					AmmoPerMag = _settings.AmmoPerMag;
+					SoundId = "";
+					Echo = true;
+					Origin = x.Parent.Parent.Handle.GunMuzzlePoint1;
+				})
+			end
+		end
+		print("refilled")
+	end
+	task.wait(0.5)
+end
+
+while true do
+	if esp then
+		for i,x in pairs(game.Workspace:GetDescendants()) do
+			if x:IsA("Part") or x:IsA("TriangleMeshPart") or x:IsA("MeshPart") and x.Name == "Head" and x.Parent == "Drooling Zombie" then
+				--if x.Parent:FindFirstChildOfClass("Humanoid") == nil or x:FindFirstChild("Highlight") == nil or x:IsA("Workspace") then warn("ESP Function - Something is wrong, they may have patched it or something randomly went wrong. Try again later.") end -- or x:FindFirstChild("Highlight") ~= nil
+				if x:IsA("Workspace") then
+				else
+				--[[	local head = x
 					local torso = x.Parent:WaitForChild("Torso")
 					local ll = x.Parent:WaitForChild("Left Leg")
 					local la = x.Parent:WaitForChild("Left Arm")
@@ -869,12 +962,20 @@ pcall(function()
 					newlimblight2.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 					newlimblight3.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 					newlimblight4.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				--]]	
 					print("ESP'd")
+					local char = x.Parent
+					local newcharlight = Instance.new("Highlight", char)
+					newcharlight.Adornee = newcharlight.Parent
+					newcharlight.FillTransparency = 0.5
+					newcharlight.FillColor = Color3.fromRGB(154, 0, 2)
+					newcharlight.OutlineTransparency = 1
+					print("workspace safe")
 				end
 			end
 		end
-		task.wait(1)
 	end
-end)
+	task.wait(1)
+end
 
 -- END OF SCRIPT --
