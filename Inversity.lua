@@ -5,6 +5,7 @@ local loading = false
 local zbypass = false
 local esp = false
 local infammo = false
+local pmactive = false
 local flstagemode = 0
 local UserInputService = game:GetService("UserInputService")
 local bannedusers = {}
@@ -444,7 +445,7 @@ ESP.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 ESP.Position = UDim2.new(0.494594574, 0, 0.606779635, 0)
 ESP.Size = UDim2.new(0, 52, 0, 36)
 ESP.Font = Enum.Font.Gotham
-ESP.Text = "ESP (F) (IN-DEV)"
+ESP.Text = "ESP (F)"
 ESP.TextColor3 = Color3.fromRGB(0, 0, 0)
 ESP.TextScaled = true
 ESP.TextSize = 14.000
@@ -481,6 +482,39 @@ detectionpart.Orientation = game.Players.LocalPlayer.Character.HumanoidRootPart.
 detectionpart.Anchored = false
 detectionpart.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 detectionpart.Massless = true
+
+local _1 = Instance.new("Part", game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"))
+_1.CanCollide = false
+local _1weld = Instance.new("WeldConstraint", _1)
+_1weld.Part0 = _1
+_1weld.Part1 = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+local _2 = Instance.new("Part", game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"))
+_2.CanCollide = false
+local _2weld = Instance.new("WeldConstraint", _2)
+_1weld.Part0 = _2
+_1weld.Part1 = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+local _3 = Instance.new("Part", game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"))
+_3.CanCollide = false
+local _3weld = Instance.new("WeldConstraint", _3)
+_3weld.Part0 = _3
+_3weld.Part1 = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+local _4 = Instance.new("Part", game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"))
+_4.CanCollide = false
+local _4weld = Instance.new("WeldConstraint", _4)
+_4weld.Part0 = _4
+_4weld.Part1 = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+_1.Position = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position + Vector3.new(0, 0, 2.5)
+_2.Position = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position + Vector3.new(0, 0, -2.5)
+_3.Position = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position + Vector3.new(4, 0, 0)
+_4.Position = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position + Vector3.new(-4, 0, 0)
+_1.Transparency = 1
+_2.Transparency = 1
+_3.Transparency = 1
+_4.Transparency = 1
+_1.Massless = true
+_2.Massless = true
+_3.Massless = true
+_4.Massless = true
 --
 LoadingUI.Visible = true
 local userId = game.Players.LocalPlayer.UserId
@@ -521,6 +555,8 @@ function SwitchServers()
 	local tpservice = game:GetService("TeleportService")
 	SS.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 	SS.Text = "Teleporting..."
+	--game.Chat:Chat(game.Players.LocalPlayer.Character, "I LOVE INVERSITY", Enum.ChatColor.Red)
+	game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I LOVE INVERSITY", "All")
 	tpservice:Teleport(game.PlaceId, game.Players.LocalPlayer)
 end
 
@@ -545,7 +581,7 @@ end
 function InfAmmo()
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
 	infammo = true
-	print("InfAmmo: On")
+	--print("InfAmmo: On")
 end
 
 function ToggleUI()
@@ -666,7 +702,7 @@ function ESP()
 				newlimblight2.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 				newlimblight3.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 				newlimblight4.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop ]]
-				print("ESP'd")
+				--print("ESP'd")
 				local char = x.Parent
 				local newcharlight = Instance.new("Highlight", char)
 				newcharlight.Adornee = newcharlight.Parent
@@ -674,7 +710,28 @@ function ESP()
 				newcharlight.FillColor = Color3.fromRGB(154, 0, 2)
 				newcharlight.OutlineTransparency = 1
 				newcharlight.Name = "esplight"
-				print("workspace safe")
+				newcharlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				--print("workspace safe")
+
+				for _,x in pairs(game.Workspace:GetChildren()) do
+					if x:IsA("Highlight") and x.Name == "esplight" then
+						x:Destroy()
+					end
+				end
+
+				for _,x in pairs(game.Players:GetDescendants()) do
+					if x:IsA("Highlight") and x.Name == "esplight" then
+						x.FillColor = Color3.fromRGB(0, 184, 0)
+						x.FillTransparency = 0.85
+						--print("cleaned")
+					end
+				end
+
+				for _,x in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+					if x:IsA("Highlight") and x.Name == "esplight" then
+						x:Destroy()
+					end
+				end
 			end
 		end
 		task.wait(1)
@@ -740,6 +797,13 @@ function HardFlashlight()
 		return
 	end
 
+end
+
+function SafeMode()
+	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
+	if pmactive then return end
+	--_2.Visible = true
+	pmactive = true
 end
 
 UserInputService.InputBegan:Connect(function(key, chatting)
@@ -856,7 +920,7 @@ end)
 game:GetService("TeleportService").TeleportInitFailed:Connect(function()
 	SS.BackgroundColor3 = Color3.fromRGB(255, 15, 0)
 	SS.Text = "Teleport Failed!"
-	print("TELEPORT FAILED - Inversity")
+	print("TELEPORT FAILED - Inversity")	
 	task.wait(2)
 	SS.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 	SS.Text = "Teleporting..."
@@ -876,6 +940,106 @@ end)
 game.Players.LocalPlayer.Character.Humanoid.HealthChanged:Connect(function()
 	if game.Players.LocalPlayer:FindFirstChildOfClass("Humanoid") == nil then return end
 	game.Players.LocalPlayer:FindFirstChildOfClass("Humanoid").Jump = true
+end)
+
+_1.Touched:Connect(function(hitbox)
+	--if not pmactive then return end	
+	local VeloValue = Vector3.new(0, 25000, 10)
+	local player = false
+	for _,x in pairs(game.Players:GetChildren()) do
+		if x:IsA("Player") then
+			if x.Name == hitbox.Parent.Name then
+				player = true
+			end
+		end
+	end
+	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
+	task.wait(2.5)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, -50000, 0)
+	task.wait(0.85)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, 2, 0)
+	task.wait(0.1)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+	task.wait(0.5)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+	player = false
+end)
+
+_2.Touched:Connect(function(hitbox)
+	--if not pmactive then return end
+	local VeloValue = Vector3.new(0, 25000, -10)
+	local player = false
+	for _,x in pairs(game.Players:GetChildren()) do
+		if x:IsA("Player") then
+			if x.Name == hitbox.Parent.Name then
+				player = true
+			end
+		end
+	end
+	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
+	task.wait(2.5)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, -50000, 0)
+	task.wait(0.85)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, 2, 0)
+	task.wait(0.1)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+	task.wait(0.5)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+	player = false
+end)
+
+_3.Touched:Connect(function(hitbox)
+	--if not pmactive then return end	
+	local VeloValue = Vector3.new(-10, 25000, 0)
+	local player = false
+	for _,x in pairs(game.Players:GetChildren()) do
+		if x:IsA("Player") then
+			if x.Name == hitbox.Parent.Name then
+				player = true
+			end
+		end
+	end
+	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
+	task.wait(2.5)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, -50000, 0)
+	task.wait(0.85)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, 2, 0)
+	task.wait(0.1)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+	task.wait(0.5)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+	player = false
+end)
+
+_4.Touched:Connect(function(hitbox)
+	--if not pmactive then return end	
+	local VeloValue = Vector3.new(10, 25000, 0)
+	local player = false
+	for _,x in pairs(game.Players:GetChildren()) do
+		if x:IsA("Player") then
+			if x.Name == hitbox.Parent.Name then
+				player = true
+			end
+		end
+	end
+	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
+	task.wait(2.5)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, -50000, 0)
+	task.wait(0.85)
+	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, 2, 0)
+	task.wait(0.1)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+	task.wait(0.5)
+	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
+	player = false
 end)
 
 while true do
