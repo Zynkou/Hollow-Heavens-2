@@ -2,7 +2,7 @@
 -- Made by Zynkou
 
 --
-local timeleft = 40
+local timeleft = 65
 --
 
 local NightifyUI = Instance.new("ScreenGui")
@@ -77,7 +77,7 @@ function UpdateUI()
 end
 
 function _Countdown()
-	for i = 1, 40 do
+	for i = 1, 65 do
 		timeleft -= 1
 		UpdateUI()
 		task.wait(1)
