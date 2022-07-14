@@ -1,11 +1,15 @@
 -- Inversity
 -- Made by Zynkou
 
+repeat task.wait() until game:IsLoaded()
+
 local loading = false
 local zbypass = false
 local esp = false
 local infammo = false
 local pmactive = false
+local pmclip = false
+local gtracers = false
 local flstagemode = 0
 local UserInputService = game:GetService("UserInputService")
 local bannedusers = {}
@@ -402,7 +406,7 @@ NSAR.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 NSAR.Position = UDim2.new(0.494594574, 0, 0.399999976, 0)
 NSAR.Size = UDim2.new(0, 52, 0, 36)
 NSAR.Font = Enum.Font.Gotham
-NSAR.Text = "Nil Spread And Recoil (K)"
+NSAR.Text = "Guided Tracers (K)"
 NSAR.TextColor3 = Color3.fromRGB(0, 0, 0)
 NSAR.TextScaled = true
 NSAR.TextSize = 14.000
@@ -491,8 +495,8 @@ _1weld.Part1 = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart
 local _2 = Instance.new("Part", game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"))
 _2.CanCollide = false
 local _2weld = Instance.new("WeldConstraint", _2)
-_1weld.Part0 = _2
-_1weld.Part1 = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+_2weld.Part0 = _2
+_2weld.Part1 = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 local _3 = Instance.new("Part", game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"))
 _3.CanCollide = false
 local _3weld = Instance.new("WeldConstraint", _3)
@@ -515,7 +519,9 @@ _1.Massless = true
 _2.Massless = true
 _3.Massless = true
 _4.Massless = true
+
 --
+
 LoadingUI.Visible = true
 local userId = game.Players.LocalPlayer.UserId
 local thumbType = Enum.ThumbnailType.HeadShot
@@ -653,7 +659,7 @@ function ESP()
 				else
 
 				end
-				print(x.Parent)
+				--print(x.Parent)
 --[[				local torso = x.Parent:WaitForChild("Torso")
 				local ll = x.Parent:WaitForChild("Left Leg")
 				local la = x.Parent:WaitForChild("Left Arm")
@@ -806,6 +812,26 @@ function SafeMode()
 	pmactive = true
 end
 
+function GuidedTracers()
+	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
+	if gtracers then return end
+
+	while true do
+		for _,x in pairs(game.Workspace:GetDescendants()) do
+			if x.Name == "HumanoidRootPart" and x:IsA("BasePart") then
+				local tracer = Instance.new("FloorWire", game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"))
+				tracer.Color3 = Color3.fromRGB(255, 0, 4)
+				tracer.Transparency = 0.85
+				tracer.WireRadius = 0.1
+				tracer.From = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+				tracer.To = x
+				tracer.Name = "gtracer"
+			end
+		end
+	task.wait(1)	
+	end
+end
+
 UserInputService.InputBegan:Connect(function(key, chatting)
 	if key.KeyCode == Enum.KeyCode.T then
 		if chatting then return 
@@ -891,7 +917,7 @@ UserInputService.InputBegan:Connect(function(key, chatting)
 	if key.KeyCode == Enum.KeyCode.K then
 		if chatting then return 
 		else
-			NilSR()
+			GuidedTracers()
 		end
 	end
 end)
@@ -912,6 +938,16 @@ UserInputService.InputBegan:Connect(function(key, chatting)
 		if chatting then return 
 		else
 			HardFlashlight()
+		end
+	end
+end)
+
+
+UserInputService.InputBegan:Connect(function(key, chatting)
+	if key.KeyCode == Enum.KeyCode.H then
+		if chatting then return 
+		else
+			SafeMode()
 		end
 	end
 end)
@@ -943,8 +979,9 @@ game.Players.LocalPlayer.Character.Humanoid.HealthChanged:Connect(function()
 end)
 
 _1.Touched:Connect(function(hitbox)
-	--if not pmactive then return end	
-	local VeloValue = Vector3.new(0, 25000, 10)
+	--if not pmactive then return end
+	if pmactive == false then return end		
+	local VeloValue = Vector3.new(0, 250, 10)
 	local player = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
@@ -954,22 +991,20 @@ _1.Touched:Connect(function(hitbox)
 		end
 	end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
-	task.wait(2.5)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, -50000, 0)
-	task.wait(0.85)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, 2, 0)
-	task.wait(0.1)
-	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
-	task.wait(0.5)
-	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+	if not player then
+		pmclip = true
+		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
+	end
+	task.wait(1)
+	pmclip = false
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	player = false
 end)
 
 _2.Touched:Connect(function(hitbox)
 	--if not pmactive then return end
-	local VeloValue = Vector3.new(0, 25000, -10)
+	if pmactive == false then return end	
+	local VeloValue = Vector3.new(0, 250, -10)
 	local player = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
@@ -979,22 +1014,20 @@ _2.Touched:Connect(function(hitbox)
 		end
 	end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
-	task.wait(2.5)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, -50000, 0)
-	task.wait(0.85)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, 2, 0)
-	task.wait(0.1)
-	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
-	task.wait(0.5)
-	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+	if not player then
+		pmclip = true
+		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
+	end
+	task.wait(1)
+	pmclip = false
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	player = false
 end)
 
 _3.Touched:Connect(function(hitbox)
 	--if not pmactive then return end	
-	local VeloValue = Vector3.new(-10, 25000, 0)
+	if pmactive == false then return end	
+	local VeloValue = Vector3.new(-10, 250, 0)
 	local player = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
@@ -1004,22 +1037,19 @@ _3.Touched:Connect(function(hitbox)
 		end
 	end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
-	task.wait(2.5)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, -50000, 0)
-	task.wait(0.85)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, 2, 0)
-	task.wait(0.1)
-	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
-	task.wait(0.5)
-	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+	if not player then
+		pmclip = true
+		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
+	end
+	task.wait(1)
+	pmclip = false
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	player = false
 end)
 
-_4.Touched:Connect(function(hitbox)
-	--if not pmactive then return end	
-	local VeloValue = Vector3.new(10, 25000, 0)
+--[[_4.Touched:Connect(function(hitbox)
+	if pmactive == false then return end	
+	local VeloValue = Vector3.new(10, 250, 0)
 	local player = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
@@ -1029,17 +1059,26 @@ _4.Touched:Connect(function(hitbox)
 		end
 	end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
-	task.wait(2.5)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, -50000, 0)
-	task.wait(0.85)
-	game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = Vector3.new(0, 2, 0)
-	task.wait(0.1)
-	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
-	task.wait(0.5)
-	game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+	if not player then
+		pmclip = true
+		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
+	end
+	task.wait(1)
+	pmclip = false
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	player = false
+end)
+--]]
+
+game:GetService("RunService").Stepped:Connect(function()
+	if pmclip then
+		for _,x in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+			if x:IsA("BasePart") then
+				x.CanCollide = false				
+			end
+		end
+		task.wait()	
+	end
 end)
 
 while true do
