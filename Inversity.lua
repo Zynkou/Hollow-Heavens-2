@@ -818,7 +818,7 @@ function GuidedTracers()
 
 	while true do
 		for _,x in pairs(game.Workspace:GetDescendants()) do
-			if x.Name == "HumanoidRootPart" and x:IsA("BasePart") then
+			if x.Name == "HumanoidRootPart" and x:IsA("BasePart") and not x.Parent.Parent == game.Players.LocalPlayer.Character then
 				local tracer = Instance.new("FloorWire", game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"))
 				tracer.Color3 = Color3.fromRGB(255, 0, 4)
 				tracer.Transparency = 0.85
