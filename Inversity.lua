@@ -750,6 +750,8 @@ function SimpleESP()
 	if esp then return end
 	esp = true
 	local newmultilight = Instance.new("Highlight", game.Workspace:FindFirstChild("zombies"))
+	newmultilight.Adornee =  game.Workspace:FindFirstChild("zombies")
+	newmultilight.Enabled = true
 	newmultilight.OutlineTransparency = 1
 end
 
