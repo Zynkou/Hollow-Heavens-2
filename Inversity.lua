@@ -747,18 +747,18 @@ end
 
 function SimpleESP()
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
-	if esp then return end
+	--if esp then return end
 	esp = true
 	while true do
-	local newmultilight = Instance.new("Highlight", game.Workspace:WaitForChild("zombies"))
-	newmultilight.Adornee =  game.Workspace:WaitForChild("zombies")
-	newmultilight.Enabled = true
-	newmultilight.FillTransparency = 0.5
-	newmultilight.FillColor = Color3.fromRGB(154, 0, 2)
-	newmultilight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-	newmultilight.OutlineTransparency = 1
-	newmultilight.Name = "esplightzombies"
-	task.wait(10)	
+		local newmultilight = Instance.new("Highlight", game.Workspace:WaitForChild("zombies"))
+		newmultilight.Adornee =  game.Workspace:WaitForChild("zombies")
+		newmultilight.Enabled = true
+		newmultilight.FillTransparency = 0.5
+		newmultilight.FillColor = Color3.fromRGB(154, 0, 2)
+		newmultilight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+		newmultilight.OutlineTransparency = 1
+		newmultilight.Name = "esplightzombies"
+		task.wait(10)	
 	end
 end
 
@@ -845,7 +845,7 @@ function GuidedTracers()
 				tracer.Name = "gtracer"
 			end
 		end
-	task.wait(1)	
+		task.wait(1)	
 	end
 end
 
@@ -1153,11 +1153,11 @@ while true do
 end
 
 while true do
-		for i,x in pairs(game.Workspace:GetDescendants()) do
-			if x:IsA("Part") or x:IsA("TriangleMeshPart") or x:IsA("MeshPart") and x.Name == "Head" and x.Parent == "Drooling Zombie" then
-				--if x.Parent:FindFirstChildOfClass("Humanoid") == nil or x:FindFirstChild("Highlight") == nil or x:IsA("Workspace") then warn("ESP Function - Something is wrong, they may have patched it or something randomly went wrong. Try again later.") end -- or x:FindFirstChild("Highlight") ~= nil
-				if x:IsA("Workspace") then
-				else
+	for i,x in pairs(game.Workspace:GetDescendants()) do
+		if x:IsA("Part") or x:IsA("TriangleMeshPart") or x:IsA("MeshPart") and x.Name == "Head" and x.Parent == "Drooling Zombie" then
+			--if x.Parent:FindFirstChildOfClass("Humanoid") == nil or x:FindFirstChild("Highlight") == nil or x:IsA("Workspace") then warn("ESP Function - Something is wrong, they may have patched it or something randomly went wrong. Try again later.") end -- or x:FindFirstChild("Highlight") ~= nil
+			if x:IsA("Workspace") then
+			else
 				--[[	local head = x
 					local torso = x.Parent:WaitForChild("Torso")
 					local ll = x.Parent:WaitForChild("Left Leg")
@@ -1208,18 +1208,18 @@ while true do
 					newlimblight3.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 					newlimblight4.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 				--]]	
-					print("ESP'd")
-					local char = x.Parent
-					local newcharlight = Instance.new("Highlight", char)
-					newcharlight.Adornee = newcharlight.Parent
-					newcharlight.FillTransparency = 0.5
-					newcharlight.FillColor = Color3.fromRGB(154, 0, 2)
-					newcharlight.OutlineTransparency = 1
-					print("workspace safe")
-				end
+				print("ESP'd")
+				local char = x.Parent
+				local newcharlight = Instance.new("Highlight", char)
+				newcharlight.Adornee = newcharlight.Parent
+				newcharlight.FillTransparency = 0.5
+				newcharlight.FillColor = Color3.fromRGB(154, 0, 2)
+				newcharlight.OutlineTransparency = 1
+				print("workspace safe")
 			end
 		end
-task.wait(1)	
+	end
+	task.wait(1)	
 end
 
 -- END OF SCRIPT --
