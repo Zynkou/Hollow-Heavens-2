@@ -749,6 +749,7 @@ function SimpleESP()
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
 	if esp then return end
 	esp = true
+	while true do
 	local newmultilight = Instance.new("Highlight", game.Workspace:WaitForChild("zombies"))
 	newmultilight.Adornee =  game.Workspace:WaitForChild("zombies")
 	newmultilight.Enabled = true
@@ -757,6 +758,8 @@ function SimpleESP()
 	newmultilight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 	newmultilight.OutlineTransparency = 1
 	newmultilight.Name = "esplightzombies"
+	task.wait(10)	
+	end
 end
 
 function HardFlashlight()
