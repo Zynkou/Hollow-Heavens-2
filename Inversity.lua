@@ -832,6 +832,14 @@ function GuidedTracers()
 	end
 end
 
+function HideTags()
+	for _,x in pairs(game.Workspace:GetDescendants()) do
+		if x:IsA("BillboardGui") then
+			x.Enabled = false
+		end
+	end
+end
+
 UserInputService.InputBegan:Connect(function(key, chatting)
 	if key.KeyCode == Enum.KeyCode.T then
 		if chatting then return 
@@ -948,6 +956,16 @@ UserInputService.InputBegan:Connect(function(key, chatting)
 		if chatting then return 
 		else
 			SafeMode()
+		end
+	end
+end)
+
+
+UserInputService.InputBegan:Connect(function(key, chatting)
+	if key.KeyCode == Enum.KeyCode.N then
+		if chatting then return 
+		else
+			HideTags()
 		end
 	end
 end)
