@@ -745,6 +745,14 @@ function ESP()
 	print("ESP: On")
 end
 
+function SimpleESP()
+	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
+	if esp then return end
+	esp = true
+	local newmultilight = Instance.new("Highlight", game.Workspace:FindFirstChild("zombies"))
+	newmultilight.OutlineTransparency = 1
+end
+
 function HardFlashlight()
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
 	local flbasevalue1 = 5
@@ -817,7 +825,7 @@ function GuidedTracers()
 	if gtracers then return end
 
 	while true do
-		for _,x in pairs(game.Workspace:GetDescendants()) do
+		for _,x in pairs(game.Workspace:FindFirstChild("zombies"):GetDescendants()) do
 			if x.Name == "HumanoidRootPart" and x:IsA("BasePart") and not x.Parent.Parent == game.Players.LocalPlayer.Character then
 				local tracer = Instance.new("FloorWire", game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"))
 				tracer.Color3 = Color3.fromRGB(255, 0, 4)
@@ -935,7 +943,7 @@ UserInputService.InputBegan:Connect(function(key, chatting)
 	if key.KeyCode == Enum.KeyCode.F then
 		if chatting then return 
 		else
-			ESP()
+			SimpleESP()
 		end
 	end
 end)
@@ -982,7 +990,7 @@ game:GetService("TeleportService").TeleportInitFailed:Connect(function()
 end)
 
 detectionpart.Touched:Connect(function(tpart)
-	if tpart.Name == "HumanoidRootPart" and zbypass then
+	if tpart.Name == "HumanoidRootPart" and zbypass and tpart.Parent.Parent == "zombies" then
 		local velovalue = Vector3.new(0, 0, -50)
 		--local velovalue2 = Vector3.new(0, 0, 10)
 		local hrp = game.Players.LocalPlayer.Character.HumanoidRootPart
@@ -1135,7 +1143,7 @@ while true do
 	task.wait(0.5)
 end
 
-while true do
+--[[while true do
 	if esp then
 		for i,x in pairs(game.Workspace:GetDescendants()) do
 			if x:IsA("Part") or x:IsA("TriangleMeshPart") or x:IsA("MeshPart") and x.Name == "Head" and x.Parent == "Drooling Zombie" then
@@ -1200,12 +1208,12 @@ while true do
 					newcharlight.FillColor = Color3.fromRGB(154, 0, 2)
 					newcharlight.OutlineTransparency = 1
 					print("workspace safe")
-					--]]
 				end
 			end
 		end
 	end
 	task.wait(1)
 end
+--]]
 
 -- END OF SCRIPT --
