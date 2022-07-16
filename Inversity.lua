@@ -1,6 +1,6 @@
 -- Inversity
 -- Made by Zynkou
-
+print("Loaded, why is this not loading.")
 --repeat task.wait() until game:IsLoaded()
 
 local loading = false
