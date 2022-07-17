@@ -6,6 +6,9 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Zynkou/Hollow-Heavens
 Nightify;
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Zynkou/Hollow-Heavens-2/main/Nightify.lua"))()
 
+Hollow Heavens 2 Lobby Cracker;
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Zynkou/Hollow-Heavens-2/main/HH2%20Lobby%20Cracker.lua"))()
+
 Other;
 
 Admin Names JSON table: https://github.com/Zynkou/Hollow-Heavens-2/blob/main/AdminNames.json
