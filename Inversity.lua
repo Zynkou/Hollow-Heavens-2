@@ -582,14 +582,17 @@ end
 function BypassWalkingLimit()
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
 	local humanoid = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
-	humanoid.WalkSpeed = 50
+	while true do
+		humanoid.WalkSpeed = 50
+		task.wait(0.5)
+	end
 end
 
 function BoostPlayer()
 	-- Could be used to fly, undetected.
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
 	local hrp = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
-	hrp.Velocity = Vector3.new(0, 150, 0)
+	hrp.Velocity = Vector3.new(0, 50, 0)
 end
 
 function InfAmmo()
@@ -1029,7 +1032,7 @@ end)
 _1.Touched:Connect(function(hitbox)
 	--if not pmactive then return end
 	if pmactive == false then return end		
-	local VeloValue = Vector3.new(0, 250, 10)
+	local VeloValue = Vector3.new(0, 100, 10)
 	local player = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
@@ -1052,7 +1055,7 @@ end)
 _2.Touched:Connect(function(hitbox)
 	--if not pmactive then return end
 	if pmactive == false then return end	
-	local VeloValue = Vector3.new(0, 250, -10)
+	local VeloValue = Vector3.new(0, 100, -10)
 	local player = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
@@ -1075,7 +1078,7 @@ end)
 _3.Touched:Connect(function(hitbox)
 	--if not pmactive then return end	
 	if pmactive == false then return end	
-	local VeloValue = Vector3.new(-10, 250, 0)
+	local VeloValue = Vector3.new(-10, 100, 0)
 	local player = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
