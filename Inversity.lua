@@ -1100,8 +1100,8 @@ _3.Touched:Connect(function(zhitbox)
 		end
 	end
 	
-	if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then falsedetection = true end
-	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then falsedetection = true end
+	if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then falsedetection = true print("false") end
+	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then falsedetection = true print("false") end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	if not player or falsedetection then
 		pmclip = true
