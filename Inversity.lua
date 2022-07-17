@@ -1043,8 +1043,8 @@ _1.Touched:Connect(function(zhitbox)
 		end
 	end
 	
-	if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then return end
-	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then return end
+	--if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then return end
+--	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then return end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	if not player then
 		pmclip = true
@@ -1069,8 +1069,8 @@ _2.Touched:Connect(function(zhitbox)
 		end
 	end
 	
-	if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then return end
-	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then return end
+--	if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then return end
+--	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then return end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	if not player then
 		pmclip = true
@@ -1095,8 +1095,8 @@ _3.Touched:Connect(function(zhitbox)
 		end
 	end
 	
-	if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then return end
-	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then return end
+--	if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then return end
+--	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then return end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	if not player then
 		pmclip = true
