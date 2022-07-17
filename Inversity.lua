@@ -1030,14 +1030,14 @@ game.Players.LocalPlayer.Character.Humanoid.HealthChanged:Connect(function()
 	game.Players.LocalPlayer:FindFirstChildOfClass("Humanoid").Jump = true
 end)
 
-_1.Touched:Connect(function(zhitbox)
+_1.Touched:Connect(function(hitbox)
 	--if not pmactive then return end
 	if pmactive == false then return end		
 	local VeloValue = Vector3.new(0, 100, 10)
 	local player = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
-			if x.Name == zhitbox.Parent.Name then
+			if x.Name == hitbox.Parent.Name then
 				player = true
 			end
 		end
@@ -1056,14 +1056,14 @@ _1.Touched:Connect(function(zhitbox)
 	player = false
 end)
 
-_2.Touched:Connect(function(zhitbox)
+_2.Touched:Connect(function(hitbox)
 	--if not pmactive then return end
 	if pmactive == false then return end	
 	local VeloValue = Vector3.new(0, 100, -10)
 	local player = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
-			if x.Name == zhitbox.Parent.Name then
+			if x.Name == hitbox.Parent.Name then
 				player = true
 			end
 		end
@@ -1082,14 +1082,14 @@ _2.Touched:Connect(function(zhitbox)
 	player = false
 end)
 
-_3.Touched:Connect(function(zhitbox)
+_3.Touched:Connect(function(hitbox)
 	--if not pmactive then return end	
 	if pmactive == false then return end	
 	local VeloValue = Vector3.new(-10, 100, 0)
 	local player = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
-			if x.Name == zhitbox.Parent.Name then
+			if x.Name == hitbox.Parent.Name then
 				player = true
 			end
 		end
