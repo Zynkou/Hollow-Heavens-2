@@ -843,7 +843,6 @@ end
 function SafeMode()
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
 	if pmactive then return end
-	--_2.Visible = true
 	pmactive = true
 end
 
@@ -1031,20 +1030,24 @@ game.Players.LocalPlayer.Character.Humanoid.HealthChanged:Connect(function()
 	game.Players.LocalPlayer:FindFirstChildOfClass("Humanoid").Jump = true
 end)
 
-_1.Touched:Connect(function(hitbox)
+_1.Touched:Connect(function(zhitbox)
 	--if not pmactive then return end
 	if pmactive == false then return end		
 	local VeloValue = Vector3.new(0, 100, 10)
 	local player = false
+	local falsedetection = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
-			if x.Name == hitbox.Parent.Name then
+			if x.Name == zhitbox.Parent.Name then
 				player = true
 			end
 		end
 	end
+	
+	if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then falsedetection = true end
+	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then falsedetection = true end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-	if not player then
+	if not player or falsedetection then
 		pmclip = true
 		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
 	end
@@ -1052,22 +1055,27 @@ _1.Touched:Connect(function(hitbox)
 	pmclip = false
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	player = false
+	falsedetection = false
 end)
 
-_2.Touched:Connect(function(hitbox)
+_2.Touched:Connect(function(zhitbox)
 	--if not pmactive then return end
 	if pmactive == false then return end	
 	local VeloValue = Vector3.new(0, 100, -10)
 	local player = false
+	local falsedetection = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
-			if x.Name == hitbox.Parent.Name then
+			if x.Name == zhitbox.Parent.Name then
 				player = true
 			end
 		end
 	end
+	
+	if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then falsedetection = true end
+	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then falsedetection = true end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-	if not player then
+	if not player or falsedetection then
 		pmclip = true
 		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
 	end
@@ -1075,22 +1083,27 @@ _2.Touched:Connect(function(hitbox)
 	pmclip = false
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	player = false
+	falsedetection = false
 end)
 
-_3.Touched:Connect(function(hitbox)
+_3.Touched:Connect(function(zhitbox)
 	--if not pmactive then return end	
 	if pmactive == false then return end	
 	local VeloValue = Vector3.new(-10, 100, 0)
 	local player = false
+	local falsedetection = false
 	for _,x in pairs(game.Players:GetChildren()) do
 		if x:IsA("Player") then
-			if x.Name == hitbox.Parent.Name then
+			if x.Name == zhitbox.Parent.Name then
 				player = true
 			end
 		end
 	end
+	
+	if zhitbox.Parent:FindFirstChildOfClass("Humanoid") ~= nil then falsedetection = true end
+	if zhitbox.Parent:FindFirstChildOfClass("Humanoid").Health == 0 or math.huge then falsedetection = true end
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
-	if not player then
+	if not player or falsedetection then
 		pmclip = true
 		game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart").Velocity = VeloValue
 	end
@@ -1098,6 +1111,7 @@ _3.Touched:Connect(function(hitbox)
 	pmclip = false
 	--game.Players.LocalPlayer.Character.Humanoid:ChangeState(11)
 	player = false
+	falsedetection = false
 end)
 
 --[[_4.Touched:Connect(function(hitbox)
