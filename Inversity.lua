@@ -553,6 +553,14 @@ print("Finishing.")
 task.wait(2)
 LoadingUI.Visible = false
 loading = false
+local newnotification1 = game.Players.LocalPlayer.PlayerGui:WaitForChild("HUD"):WaitForChild("notifications"):WaitForChild("template"):Clone()
+newnotification1.Text = "Inversity Loaded <i>Sucessfully<i>"
+task.wait(2.5)
+newnotification1:Destroy()
+local newnotification2 = game.Players.LocalPlayer.PlayerGui:WaitForChild("HUD"):WaitForChild("notifications"):WaitForChild("template"):Clone()
+newnotification2.Text = "Made by <b>Zynkou<b>."
+task.wait(5)
+newnotification2:Destroy()
 
 --
 
@@ -750,15 +758,20 @@ function SimpleESP()
 	--if esp then return end
 	esp = true
 	while true do
-		local newmultilight = Instance.new("Highlight", game.Workspace:WaitForChild("zombies"))
-		newmultilight.Adornee =  game.Workspace:WaitForChild("zombies")
-		newmultilight.Enabled = true
-		newmultilight.FillTransparency = 0.5
-		newmultilight.FillColor = Color3.fromRGB(154, 0, 2)
-		newmultilight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-		newmultilight.OutlineTransparency = 1
-		newmultilight.Name = "esplightzombies"
-		task.wait(10)	
+		for _,x in pairs(game.Workspace:WaitForChild("zombies"):GetChildren()) do
+			if x:IsA("Model") then
+				local zombie = x
+				local newmultilight = Instance.new("Highlight", zombie)
+				newmultilight.Adornee = zombie
+				newmultilight.Enabled = true
+				newmultilight.FillTransparency = 0.5
+				newmultilight.FillColor = Color3.fromRGB(154, 0, 2)
+				newmultilight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+				newmultilight.OutlineTransparency = 1
+				newmultilight.Name = "esplightzombie"
+			end
+		end
+		task.wait(1.2)	
 	end
 end
 
@@ -834,8 +847,8 @@ function GuidedTracers()
 	if gtracers then return end
 
 	while true do
-		for _,x in pairs(game.Workspace:FindFirstChild("zombies"):GetDescendants()) do
-			if x.Name == "HumanoidRootPart" and x:IsA("BasePart") and not x.Parent.Parent == game.Players.LocalPlayer.Character then
+		for _,x in pairs(game.Workspace:FindFirstChild("zombies"):GetChildren()) do
+			if x:IsA("Model") and x:WaitForChild("HumanoidRootPart") ~= nil then
 				local tracer = Instance.new("FloorWire", game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart"))
 				tracer.Color3 = Color3.fromRGB(255, 0, 4)
 				tracer.Transparency = 0.85
