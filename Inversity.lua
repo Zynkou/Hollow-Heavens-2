@@ -531,8 +531,8 @@ PFPLabel.Image = content
 PlrNameLabel.Text = "@".. game.Players.LocalPlayer.Name
 loading = true
 print("Loaded Inversity Installer.")
-game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("AnticheatFunctions"):Destroy()
-game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("BanIt"):Destroy()
+--game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("AnticheatFunctions"):Destroy()
+--game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("BanIt"):Destroy()
 task.wait(1)
 TextLabel.Text = "Loading (1/3)"
 print("Loaded UI.")
@@ -556,11 +556,13 @@ task.wait(2)
 LoadingUI.Visible = false
 loading = false
 local newnotification1 = game.Players.LocalPlayer.PlayerGui:WaitForChild("HUD"):WaitForChild("notifications"):WaitForChild("template"):Clone()
-newnotification1.Text = "Inversity Loaded <i>Sucessfully<i>"
+newnotification1.Text = "Inversity Loaded <i>Sucessfully</i>"
+newnotification1.Visible = true
 task.wait(2.5)
 newnotification1:Destroy()
 local newnotification2 = game.Players.LocalPlayer.PlayerGui:WaitForChild("HUD"):WaitForChild("notifications"):WaitForChild("template"):Clone()
-newnotification2.Text = "Made by <b>Zynkou<b>."
+newnotification2.Text = "Made by <b>Zynkou</b>."
+newnotification2.Visible = true
 task.wait(5)
 newnotification2:Destroy()
 
