@@ -10,6 +10,8 @@ local infammo = false
 local pmactive = false
 local pmclip = false
 local gtracers = false
+local still = false
+local btactive = false
 local flstagemode = 0
 local UserInputService = game:GetService("UserInputService")
 local bannedusers = {}
@@ -75,6 +77,7 @@ InversityUI.Name = "InversityUI"
 InversityUI.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 InversityUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 InversityUI.ResetOnSpawn = false
+InversityUI.DisplayOrder = 99999
 
 Mainframe.Name = "Mainframe"
 Mainframe.Parent = InversityUI
@@ -157,7 +160,7 @@ IA.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 IA.Position = UDim2.new(0.278378367, 0, 0.400000006, 0)
 IA.Size = UDim2.new(0, 52, 0, 36)
 IA.Font = Enum.Font.Gotham
-IA.Text = "Infinite Ammo (Y)"
+IA.Text = "Refill Ammo (Y)"
 IA.TextColor3 = Color3.fromRGB(0, 0, 0)
 IA.TextScaled = true
 IA.TextSize = 14.000
@@ -187,7 +190,7 @@ NF.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
 NF.Position = UDim2.new(0.278378367, 0, 0.606779695, 0)
 NF.Size = UDim2.new(0, 52, 0, 36)
 NF.Font = Enum.Font.Gotham
-NF.Text = "Nil Firerate (M)"
+NF.Text = "Bullet Teleport (M)"
 NF.TextColor3 = Color3.fromRGB(0, 0, 0)
 NF.TextScaled = true
 NF.TextSize = 14.000
@@ -531,8 +534,8 @@ PFPLabel.Image = content
 PlrNameLabel.Text = "@".. game.Players.LocalPlayer.Name
 loading = true
 print("Loaded Inversity Installer.")
-game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("AnticheatFunctions"):Destroy()
-game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("BanIt"):Destroy()
+--game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("AnticheatFunctions"):Destroy()
+--game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("BanIt"):Destroy()
 task.wait(1)
 TextLabel.Text = "Loading (1/3)"
 print("Loaded UI.")
@@ -555,17 +558,16 @@ print("Finishing.")
 task.wait(2)
 LoadingUI.Visible = false
 loading = false
+--[[
 local newnotification1 = game.Players.LocalPlayer.PlayerGui:WaitForChild("HUD"):WaitForChild("notifications"):WaitForChild("template"):Clone()
-newnotification1.Text = "Inversity Loaded <i>Sucessfully</i>"
-newnotification1.Visible = true
+newnotification1.Text = "Inversity Loaded <i>Sucessfully<i>"
 task.wait(2.5)
 newnotification1:Destroy()
 local newnotification2 = game.Players.LocalPlayer.PlayerGui:WaitForChild("HUD"):WaitForChild("notifications"):WaitForChild("template"):Clone()
-newnotification2.Text = "Made by <b>Zynkou</b>."
-newnotification2.Visible = true
+newnotification2.Text = "Made by <b>Zynkou<b>."
 task.wait(5)
 newnotification2:Destroy()
-
+--]]
 --
 
 function SwitchServers()
@@ -587,8 +589,12 @@ function BypassWalkingLimit()
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
 	local humanoid = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
 	while true do
-		humanoid.WalkSpeed = 50
-		task.wait(0.5)
+		humanoid.WalkSpeed = 25
+		if still == false then
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
+			print("CFrame added")
+		end
+		task.wait()
 	end
 end
 
@@ -868,6 +874,50 @@ function GuidedTracers()
 	end
 end
 
+function RefillAmmo()
+	local InputSpoofer = game:GetService("VirtualInputManager")
+	local lastcframe = CFrame.new()
+	
+	for _,x in pairs(game.Workspace:GetDescendants()) do
+		if x.Name == "Ammo" and x:IsA("MeshPart") then
+			local ammocframe = x.CFrame
+			lastcframe = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+			game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = true
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = ammocframe
+			InputSpoofer:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+			task.wait(0.1)
+			InputSpoofer:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = lastcframe
+			game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = false
+		end
+	end
+end
+
+function BulletTeleport()
+	if btactive then return end
+	btactive = true
+	
+	while true do
+	local function TeleportBullet(SetCFrame)
+		for _,x in pairs(game.Workspace.CurrentCamera:GetChildren()) do
+			if x.Name == "NewBullet" and x:IsA("Part") then
+				x.CFrame = SetCFrame
+			end
+		end
+	end
+	
+	
+	for _,x in pairs(game.Workspace:GetDescendants()) do
+		if x.Name == "Drooling Zombie" and x:IsA("Zombie") then
+			local head = x:WaitForChild("Head")
+			local hecframe = head.CFrame
+			TeleportBullet(hecframe)
+		end
+	end
+		task.wait(0.1)
+		end
+end
+
 function HideTags()
 	for _,x in pairs(game.Workspace:GetDescendants()) do
 		if x:IsA("BillboardGui") then
@@ -900,7 +950,7 @@ UserInputService.InputBegan:Connect(function(key, chatting)
 	if key.KeyCode == Enum.KeyCode.M then
 		if chatting then return 
 		else
-			NilFirerate()
+			BulletTeleport()
 		end
 	end
 end)
@@ -911,7 +961,7 @@ UserInputService.InputBegan:Connect(function(key, chatting)
 	if key.KeyCode == Enum.KeyCode.Y then
 		if chatting then return 
 		else
-			InfAmmo()
+			RefillAmmo()
 		end
 	end
 end)
@@ -1133,6 +1183,22 @@ end)
 end)
 --]]
 
+--[[
+while true do
+	local val = game.Players.LocalPlayer.Character.Humanoid.MoveDirection.X 
+	if val < 0.1 then
+		still = true
+		val = game.Players.LocalPlayer.Character.Humanoid.MoveDirection.X 
+		print("Still")
+	else
+		still = false
+		val = game.Players.LocalPlayer.Character.Humanoid.MoveDirection.X 
+		print("Not Still")
+	end
+	task.wait(0.25)
+end
+--]]
+
 game:GetService("RunService").Stepped:Connect(function()
 	if pmclip then
 		for _,x in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
@@ -1179,6 +1245,7 @@ while true do
 	end
 	task.wait(0.5)
 end
+
 
 while true do
 	for i,x in pairs(game.Workspace:GetDescendants()) do
