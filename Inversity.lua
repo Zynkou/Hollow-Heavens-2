@@ -588,12 +588,13 @@ end
 function BypassWalkingLimit()
 	if loading then print("CANNOT USE FUNCTION WHILE LOADING") return end
 	local humanoid = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid")
+	
 	while true do
-		humanoid.WalkSpeed = 25
-		if still == false then
-			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
-			print("CFrame added")
-		end
+		humanoid.WalkSpeed = 50
+		--if still == false then
+			--game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * 1
+			--print("CFrame added")
+		--end
 		task.wait()
 	end
 end
