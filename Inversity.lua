@@ -531,8 +531,8 @@ PFPLabel.Image = content
 PlrNameLabel.Text = "@".. game.Players.LocalPlayer.Name
 loading = true
 print("Loaded Inversity Installer.")
---game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("AnticheatFunctions"):Destroy()
---game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("BanIt"):Destroy()
+game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("AnticheatFunctions"):Destroy()
+game.ReplicatedStorage:WaitForChild("Modules"):WaitForChild("BanIt"):Destroy()
 task.wait(1)
 TextLabel.Text = "Loading (1/3)"
 print("Loaded UI.")
